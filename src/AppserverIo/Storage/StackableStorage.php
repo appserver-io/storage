@@ -119,9 +119,7 @@ class StackableStorage extends GenericStackable implements StorageInterface
         $cacheKey = $this->getIdentifier() . $entryIdentifier;
 
         // set the data in the storage
-        $this->lock();
         $this[$cacheKey] = $data;
-        $this->unlock();
 
         // if tags has been set, tag the data additionally
         foreach ($tags as $tag) {
@@ -137,9 +135,7 @@ class StackableStorage extends GenericStackable implements StorageInterface
             }
 
             // tag the data
-            $this->lock();
             $this[$tag] = $tagData;
-            $this->unlock();
         }
     }
 
@@ -153,11 +149,7 @@ class StackableStorage extends GenericStackable implements StorageInterface
      */
     public function get($entryIdentifier)
     {
-        // create a unique cache key and add the passed value to the storage
-        $cacheKey = $this->getIdentifier() . $entryIdentifier;
-
-        // try to load the value from the array
-        return $this[$cacheKey];
+        return $this[$this->getIdentifier() . $entryIdentifier];
     }
 
     /**
@@ -184,9 +176,7 @@ class StackableStorage extends GenericStackable implements StorageInterface
     public function remove($entryIdentifier)
     {
         if ($this->has($entryIdentifier)) {
-            $this->lock();
             unset($this[$this->getIdentifier() . $entryIdentifier]);
-            $this->unlock();
             return true;
         }
         return false;

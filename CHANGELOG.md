@@ -1,3 +1,13 @@
+# Version 0.5.12
+
+## Bugfixes
+
+* None
+
+## Features
+
+* Remove unnecessary lock/unlock calls when stack values
+
 # Version 0.5.11
 
 ## Bugfixes
