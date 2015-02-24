@@ -53,16 +53,12 @@ class StackableStorage extends GenericStackable implements StorageInterface
      * The identifier will be set after the init() function has been invoked, so it'll overwrite the one
      * specified in the configuration if set.
      *
-     * @param string $identifier Unique identifier for the cache storage
-     *
      * @return void
      */
-    public function __construct($identifier = null)
+    public function __construct()
     {
         // flush the storage
         $this->flush();
-        // set the identifier
-        $this->identifier = $identifier;
     }
 
     /**
@@ -86,7 +82,7 @@ class StackableStorage extends GenericStackable implements StorageInterface
      */
     public function getByTag($tag)
     {
-        return $this->get($this->getIdentifier() . $tag);
+        return $this->get($tag);
     }
 
     /**
@@ -115,23 +111,21 @@ class StackableStorage extends GenericStackable implements StorageInterface
      */
     public function set($entryIdentifier, $data, array $tags = array(), $lifetime = null)
     {
-        // create a unique cache key and add the passed value to the storage
-        $cacheKey = $this->getIdentifier() . $entryIdentifier;
 
         // set the data in the storage
-        $this[$cacheKey] = $data;
+        $this[$entryIdentifier] = $data;
 
         // if tags has been set, tag the data additionally
         foreach ($tags as $tag) {
 
             // assemble the tag data
-            $tagData = $this->get($this->getIdentifier() . $tag);
-            if (is_array($tagData) && in_array($cacheKey, $tagData, true) === true) {
+            $tagData = $this->get($tag);
+            if (is_array($tagData) && in_array($entryIdentifier, $tagData, true) === true) {
                 // do nothing here
-            } elseif (is_array($tagData) && in_array($cacheKey, $tagData, true) === false) {
-                $tagData[] = $cacheKey;
+            } elseif (is_array($tagData) && in_array($entryIdentifier, $tagData, true) === false) {
+                $tagData[] = $entryIdentifier;
             } else {
-                $tagData = array($cacheKey);
+                $tagData = array($entryIdentifier);
             }
 
             // tag the data
@@ -149,7 +143,7 @@ class StackableStorage extends GenericStackable implements StorageInterface
      */
     public function get($entryIdentifier)
     {
-        return $this[$this->getIdentifier() . $entryIdentifier];
+        return $this[$entryIdentifier];
     }
 
     /**
@@ -162,7 +156,7 @@ class StackableStorage extends GenericStackable implements StorageInterface
      */
     public function has($entryIdentifier)
     {
-        return isset($this[$this->getIdentifier() . $entryIdentifier]);
+        return isset($this[$entryIdentifier]);
     }
 
     /**
@@ -176,7 +170,7 @@ class StackableStorage extends GenericStackable implements StorageInterface
     public function remove($entryIdentifier)
     {
         if ($this->has($entryIdentifier)) {
-            unset($this[$this->getIdentifier() . $entryIdentifier]);
+            unset($this[$entryIdentifier]);
             return true;
         }
         return false;

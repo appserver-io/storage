@@ -50,7 +50,7 @@ class StackableStorageTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->storage = new StackableStorage(md5(__CLASS__));
+        $this->storage = new StackableStorage();
     }
 
     /**
