@@ -11,10 +11,8 @@
  *
  * PHP version 5
  *
- * @category  Library
- * @package   Storage
  * @author    Tim Wagner <tw@techdivision.com>
- * @copyright 2014 TechDivision GmbH <info@techdivision.com>
+ * @copyright 2015 TechDivision GmbH <info@techdivision.com>
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      http://github.com/appserver-io/storage
  * @link      http://www.appserver.io
@@ -23,18 +21,50 @@
 namespace AppserverIo\Storage;
 
 /**
- * Class MemcachedStorage
+ * A Memcached storage implementation.
  *
- * @category  Library
- * @package   Storage
  * @author    Tim Wagner <tw@techdivision.com>
- * @copyright 2014 TechDivision GmbH <info@techdivision.com>
+ * @copyright 2015 TechDivision GmbH <info@techdivision.com>
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      http://github.com/appserver-io/storage
  * @link      http://www.appserver.io
  */
-class MemcachedStorage extends AbstractStorage
+class MemcachedStorage extends AbstractStorage implements MemcachedStorageInterface
 {
+
+    /**
+     * Array that contains servers the storage is bound to.
+     *
+     * @var array
+     */
+    protected $servers = array();
+
+    /**
+     * Adds an server to the internal list with servers this storage
+     * is bound to, used by MemcachedStorage for example.
+     *
+     * @param string  $host   The server host
+     * @param integer $port   The server port
+     * @param integer $weight The weight the server has
+     *
+     * @return void
+     * @see \AppserverIo\Storage\StorageInterface::addServer()
+     */
+    public function addServer($host, $port, $weight)
+    {
+        $this->servers[] = array($host, $port, $weight);
+    }
+
+    /**
+     * Returns the list with servers this storage is bound to.
+     *
+     * @return array The server list
+     * @see \AppserverIo\Storage\StorageInterface::getServers()
+     */
+    public function getServers()
+    {
+        return $this->servers;
+    }
 
     /**
      * (non-PHPdoc)
@@ -71,21 +101,18 @@ class MemcachedStorage extends AbstractStorage
      */
     public function set($entryIdentifier, $data, array $tags = array(), $lifetime = null)
     {
-        // create a unique cache key and add the passed value to the storage
-        $cacheKey = $this->getIdentifier() . $entryIdentifier;
-        $this->storage->set($cacheKey, $data, $lifetime);
+        // add the passed value to the storage
+        $this->storage->set($entryIdentifier, $data, $lifetime);
 
         // if tags has been set, tag the data additionally
         foreach ($tags as $tag) {
-            $tagData = $this->get($this->getIdentifier() . $tag);
-            if (is_array($tagData) && in_array($cacheKey, $tagData, true) === true) {
+            $tagData = $this->get($tag);
+            if (is_array($tagData) && in_array($entryIdentifier, $tagData, true) === true) {
                 // do nothing here
-            } elseif (is_array($tagData) && in_array($cacheKey, $tagData, true) === false) {
-                $tagData[] = $cacheKey;
+            } elseif (is_array($tagData) && in_array($entryIdentifier, $tagData, true) === false) {
+                $tagData[] = $entryIdentifier;
             } else {
-                $tagData = array(
-                    $cacheKey
-                );
+                $tagData = array($entryIdentifier);
             }
             $this->storage->set($tag, $tagData);
         }
@@ -114,7 +141,7 @@ class MemcachedStorage extends AbstractStorage
      */
     public function remove($entryIdentifier)
     {
-        $this->storage->delete($this->getIdentifier() . $entryIdentifier);
+        $this->storage->delete($entryIdentifier);
     }
 
     /**

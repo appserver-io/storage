@@ -11,10 +11,8 @@
  *
  * PHP version 5
  *
- * @category  Library
- * @package   Storage
  * @author    Tim Wagner <tw@techdivision.com>
- * @copyright 2014 TechDivision GmbH <info@techdivision.com>
+ * @copyright 2015 TechDivision GmbH <info@techdivision.com>
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      http://github.com/appserver-io/storage
  * @link      http://www.appserver.io
@@ -25,10 +23,8 @@ namespace AppserverIo\Storage;
 /**
  * A abstract storage implementation.
  *
- * @category  Library
- * @package   Storage
  * @author    Tim Wagner <tw@techdivision.com>
- * @copyright 2014 TechDivision GmbH <info@techdivision.com>
+ * @copyright 2015 TechDivision GmbH <info@techdivision.com>
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      http://github.com/appserver-io/storage
  * @link      http://www.appserver.io
@@ -52,21 +48,11 @@ abstract class AbstractStorage implements StorageInterface
 
     /**
      * Passes the configuration and initializes the storage.
-     *
-     * The identifier will be set after the init() function has been invoked, so it'll overwrite the one
-     * specified in the configuration if set.
-     *
-     * @param string $identifier Unique identifier for the cache storage
-     *
-     * @return void
      */
-    public function __construct($identifier = null)
+    public function __construct()
     {
         $this->init();
         $this->flush();
-        if ($identifier != null) {
-            $this->identifier = $identifier;
-        }
     }
 
     /**
@@ -109,7 +95,7 @@ abstract class AbstractStorage implements StorageInterface
      */
     public function getByTag($tag)
     {
-        return $this->get($this->getIdentifier() . $tag);
+        return $this->get($tag);
     }
 
     /**
@@ -122,7 +108,7 @@ abstract class AbstractStorage implements StorageInterface
      */
     public function has($entryIdentifier)
     {
-        if ($this->get($this->getIdentifier() . $entryIdentifier) !== false) {
+        if ($this->get($entryIdentifier) !== false) {
             return true;
         }
         return false;

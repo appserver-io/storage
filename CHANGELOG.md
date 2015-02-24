@@ -1,3 +1,23 @@
+# Version 1.0.0
+
+## Bugfixes
+
+* None
+
+## Features
+
+* Switched to stable dependencies due to version 1.0.0 release
+
+# Version 0.5.13
+
+## Bugfixes
+
+* None
+
+## Features
+
+* Applied new file name and comment convention
+
 # Version 0.5.12
 
 ## Bugfixes

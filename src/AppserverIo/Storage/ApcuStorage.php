@@ -11,10 +11,8 @@
  *
  * PHP version 5
  *
- * @category  Library
- * @package   Storage
  * @author    Tim Wagner <tw@techdivision.com>
- * @copyright 2014 TechDivision GmbH <info@techdivision.com>
+ * @copyright 2015 TechDivision GmbH <info@techdivision.com>
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      http://github.com/appserver-io/storage
  * @link      http://www.appserver.io
@@ -25,10 +23,8 @@ namespace AppserverIo\Storage;
 /**
  * Class ApcuStorage
  *
- * @category  Library
- * @package   Storage
  * @author    Tim Wagner <tw@techdivision.com>
- * @copyright 2014 TechDivision GmbH <info@techdivision.com>
+ * @copyright 2015 TechDivision GmbH <info@techdivision.com>
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      http://github.com/appserver-io/storage
  * @link      http://www.appserver.io
@@ -62,21 +58,18 @@ class ApcuStorage extends AbstractStorage
      */
     public function set($entryIdentifier, $data, array $tags = array(), $lifetime = null)
     {
-        // create a unique cache key and add the passed value to the storage
-        $cacheKey = $this->getIdentifier() . $entryIdentifier;
-        apc_store($cacheKey, $data, $lifetime);
+        // add the passed value to the storage
+        apc_store($entryIdentifier, $data, $lifetime);
 
         // if tags has been set, tag the data additionally
         foreach ($tags as $tag) {
-            $tagData = $this->get($this->getIdentifier() . $tag);
-            if (is_array($tagData) && in_array($cacheKey, $tagData, true) === true) {
+            $tagData = $this->get($tag);
+            if (is_array($tagData) && in_array($entryIdentifier, $tagData, true) === true) {
                 // do nothing here
-            } elseif (is_array($tagData) && in_array($cacheKey, $tagData, true) === false) {
-                $tagData[] = $cacheKey;
+            } elseif (is_array($tagData) && in_array($entryIdentifier, $tagData, true) === false) {
+                $tagData[] = $entryIdentifier;
             } else {
-                $tagData = array(
-                    $cacheKey
-                );
+                $tagData = array($entryIdentifier);
             }
             apc_store($tag, $tagData);
         }
@@ -105,7 +98,7 @@ class ApcuStorage extends AbstractStorage
      */
     public function has($entryIdentifier)
     {
-        return apc_exists($this->getIdentifier() . $entryIdentifier);
+        return apc_exists($entryIdentifier);
     }
 
     /**
@@ -118,7 +111,7 @@ class ApcuStorage extends AbstractStorage
      */
     public function remove($entryIdentifier)
     {
-        return apc_delete($this->getIdentifier() . $entryIdentifier);
+        return apc_delete($entryIdentifier);
     }
 
     /**

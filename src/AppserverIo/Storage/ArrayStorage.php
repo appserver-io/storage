@@ -11,10 +11,8 @@
  *
  * PHP version 5
  *
- * @category  Library
- * @package   Storage
  * @author    Tim Wagner <tw@techdivision.com>
- * @copyright 2014 TechDivision GmbH <info@techdivision.com>
+ * @copyright 2015 TechDivision GmbH <info@techdivision.com>
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      http://github.com/appserver-io/storage
  * @link      http://www.appserver.io
@@ -28,10 +26,8 @@ namespace AppserverIo\Storage;
  * This storage will completely be flushed when the the object is destroyed,
  * there is no automatic persistence functionality available.
  *
- * @category  Library
- * @package   Storage
  * @author    Tim Wagner <tw@techdivision.com>
- * @copyright 2014 TechDivision GmbH <info@techdivision.com>
+ * @copyright 2015 TechDivision GmbH <info@techdivision.com>
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      http://github.com/appserver-io/storage
  * @link      http://www.appserver.io
@@ -41,17 +37,13 @@ class ArrayStorage extends AbstractStorage
 
     /**
      * Injects the \Stackable storage handler into the instance.
-     *
-     * @param string $identifier Unique identifier for the cache storage
-     *
-     * @return void
      */
-    public function __construct($identifier = null)
+    public function __construct()
     {
         // inject the stackable storage
         $this->injectStorage(array());
         // call the parent constructor to initialize + flush the storage
-        parent::__construct($identifier);
+        parent::__construct();
     }
 
     /**
@@ -80,25 +72,20 @@ class ArrayStorage extends AbstractStorage
      */
     public function set($entryIdentifier, $data, array $tags = array(), $lifetime = null)
     {
-        // create a unique cache key and add the passed value to the storage
-        $cacheKey = $this->getIdentifier() . $entryIdentifier;
 
         // set the data in the storage
-        $this->storage[$cacheKey] = $data;
+        $this->storage[$entryIdentifier] = $data;
 
         // if tags has been set, tag the data additionally
         foreach ($tags as $tag) {
-
             // assemble the tag data
-            $tagData = $this->get($this->getIdentifier() . $tag);
-            if (is_array($tagData) && in_array($cacheKey, $tagData, true) === true) {
+            $tagData = $this->get($tag);
+            if (is_array($tagData) && in_array($entryIdentifier, $tagData, true) === true) {
                 // do nothing here
-            } elseif (is_array($tagData) && in_array($cacheKey, $tagData, true) === false) {
-                $tagData[] = $cacheKey;
+            } elseif (is_array($tagData) && in_array($entryIdentifier, $tagData, true) === false) {
+                $tagData[] = $entryIdentifier;
             } else {
-                $tagData = array(
-                    $cacheKey
-                );
+                $tagData = array($entryIdentifier);
             }
 
             // tag the data
@@ -116,11 +103,7 @@ class ArrayStorage extends AbstractStorage
      */
     public function get($entryIdentifier)
     {
-        // create a unique cache key and add the passed value to the storage
-        $cacheKey = $this->getIdentifier() . $entryIdentifier;
-
-        // try to load the value from the array
-        return $this->storage[$cacheKey];
+        return $this->storage[$entryIdentifier];
     }
 
     /**
@@ -133,7 +116,7 @@ class ArrayStorage extends AbstractStorage
      */
     public function has($entryIdentifier)
     {
-        return isset($this->storage[$this->getIdentifier() . $entryIdentifier]);
+        return isset($this->storage[$entryIdentifier]);
     }
 
     /**
@@ -147,7 +130,7 @@ class ArrayStorage extends AbstractStorage
     public function remove($entryIdentifier)
     {
         if ($this->has($entryIdentifier)) {
-            unset($this->storage[$this->getIdentifier() . $entryIdentifier]);
+            unset($this->storage[$entryIdentifier]);
             return true;
         }
         return false;

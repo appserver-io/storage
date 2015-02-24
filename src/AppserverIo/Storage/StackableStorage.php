@@ -11,10 +11,8 @@
  *
  * PHP version 5
  *
- * @category  Library
- * @package   Storage
  * @author    Tim Wagner <tw@techdivision.com>
- * @copyright 2014 TechDivision GmbH <info@techdivision.com>
+ * @copyright 2015 TechDivision GmbH <info@techdivision.com>
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      http://github.com/appserver-io/storage
  * @link      http://www.appserver.io
@@ -29,10 +27,8 @@ namespace AppserverIo\Storage;
  * This storage will completely be flushed when the the object is destroyed,
  * there is no automatic persistence functionality available.
  *
- * @category  Library
- * @package   Storage
  * @author    Tim Wagner <tw@techdivision.com>
- * @copyright 2014 TechDivision GmbH <info@techdivision.com>
+ * @copyright 2015 TechDivision GmbH <info@techdivision.com>
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      http://github.com/appserver-io/storage
  * @link      http://www.appserver.io
@@ -57,7 +53,6 @@ class StackableStorage extends GenericStackable implements StorageInterface
      */
     public function __construct()
     {
-        // flush the storage
         $this->flush();
     }
 
@@ -117,7 +112,6 @@ class StackableStorage extends GenericStackable implements StorageInterface
 
         // if tags has been set, tag the data additionally
         foreach ($tags as $tag) {
-
             // assemble the tag data
             $tagData = $this->get($tag);
             if (is_array($tagData) && in_array($entryIdentifier, $tagData, true) === true) {

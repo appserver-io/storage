@@ -11,10 +11,8 @@
  *
  * PHP version 5
  *
- * @category  Library
- * @package   Storage
  * @author    Tim Wagner <tw@techdivision.com>
- * @copyright 2014 TechDivision GmbH <info@techdivision.com>
+ * @copyright 2015 TechDivision GmbH <info@techdivision.com>
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      http://github.com/appserver-io/storage
  * @link      http://www.appserver.io
@@ -25,23 +23,14 @@ namespace AppserverIo\Storage;
 /**
  * Interface for all storage implementations.
  *
- * @category  Library
- * @package   Storage
  * @author    Tim Wagner <tw@techdivision.com>
- * @copyright 2014 TechDivision GmbH <info@techdivision.com>
+ * @copyright 2015 TechDivision GmbH <info@techdivision.com>
  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
  * @link      http://github.com/appserver-io/storage
  * @link      http://www.appserver.io
  */
 interface StorageInterface
 {
-
-    /**
-     * Returns this cache's identifier
-     *
-     * @return string The identifier for this cache
-     */
-    public function getIdentifier();
 
     /**
      * Saves data in the cache.
@@ -147,23 +136,4 @@ interface StorageInterface
      * @return object The storage object itself
      */
     public function getStorage();
-
-    /**
-     * Adds an server to the internal list with servers this storage
-     * is bound to, used by MemcachedStorage for example.
-     *
-     * @param string  $host   The server host
-     * @param integer $port   The server port
-     * @param integer $weight The weight the server has
-     *
-     * @return void
-     */
-    public function addServer($host, $port, $weight);
-
-    /**
-     * Returns the list with servers this storage is bound to.
-     *
-     * @return array The server list
-     */
-    public function getServers();
 }
