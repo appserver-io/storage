@@ -1,3 +1,14 @@
+# Version 2.0.0
+
+## Bugfixes
+
+* None
+
+## Features
+
+* Remove internal identifier from StackableStorage
+* Move addServer() and getServers() methods to new MemcachedStorageInterface
+
 # Version 1.0.0
 
 ## Bugfixes

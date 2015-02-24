@@ -33,58 +33,6 @@ trait StorageTrait
 {
 
     /**
-     * Unique identifier for the cache storage.
-     *
-     * @var string
-     */
-    protected $identifier;
-
-    /**
-     * Array that contains servers the storage is bound to.
-     *
-     * @var array
-     */
-    protected $servers = array();
-
-    /**
-     * Adds an server to the internal list with servers this storage
-     * is bound to, used by MemcachedStorage for example.
-     *
-     * @param string  $host   The server host
-     * @param integer $port   The server port
-     * @param integer $weight The weight the server has
-     *
-     * @return void
-     * @see \AppserverIo\Storage\StorageInterface::addServer()
-     */
-    public function addServer($host, $port, $weight)
-    {
-        $this->servers[] = array($host, $port, $weight);
-    }
-
-    /**
-     * Returns the list with servers this storage is bound to.
-     *
-     * @return array The server list
-     * @see \AppserverIo\Storage\StorageInterface::getServers()
-     */
-    public function getServers()
-    {
-        return $this->servers;
-    }
-
-    /**
-     * (non-PHPdoc)
-     *
-     * @see \AppserverIo\Storage\StorageInterface::getIdentifier()
-     * @return string The identifier for this cache
-     */
-    public function getIdentifier()
-    {
-        return $this->identifier;
-    }
-
-    /**
      * (non-PHPdoc)
      *
      * @return void
@@ -94,9 +42,7 @@ trait StorageTrait
     {
         if ($allKeys = $this->getAllKeys()) {
             foreach ($allKeys as $key) {
-                if (substr_compare($key, $this->getIdentifier(), 0)) {
-                    $this->remove($key);
-                }
+                $this->remove($key);
             }
         }
     }
@@ -111,12 +57,12 @@ trait StorageTrait
      */
     public function flushByTag($tag)
     {
-        $tagData = $this->get($this->getIdentifier() . $tag);
+        $tagData = $this->get($tag);
         if (is_array($tagData)) {
             foreach ($tagData as $cacheKey) {
                 $this->remove($cacheKey);
             }
-            $this->remove($this->getIdentifier() . $tag);
+            $this->remove($tag);
         }
     }
 

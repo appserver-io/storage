@@ -1,7 +1,7 @@
 <?php
 
 /**
- * AppserverIo\Storage\StackableStorageTest
+ * AppserverIo\Storage\MemcachedStorageInterface
  *
  * NOTICE OF LICENSE
  *
@@ -21,7 +21,7 @@
 namespace AppserverIo\Storage;
 
 /**
- * Test for the default session settings implementation.
+ * Interface for a Memcached storage implementations.
  *
  * @author    Tim Wagner <tw@techdivision.com>
  * @copyright 2015 TechDivision GmbH <info@techdivision.com>
@@ -29,34 +29,25 @@ namespace AppserverIo\Storage;
  * @link      http://github.com/appserver-io/storage
  * @link      http://www.appserver.io
  */
-class StackableStorageTest extends \PHPUnit_Framework_TestCase
+interface MemcachedStorageInterface
 {
 
     /**
-     * The storage instance to test.
+     * Adds an server to the internal list with servers this storage
+     * is bound to, used by MemcachedStorage for example.
      *
-     * @var \AppserverIo\Storage\StackableStorage
-     */
-    protected $storage;
-
-    /**
-     * Initializes the storage instance to test.
+     * @param string  $host   The server host
+     * @param integer $port   The server port
+     * @param integer $weight The weight the server has
      *
      * @return void
      */
-    public function setUp()
-    {
-        $this->storage = new StackableStorage();
-    }
+    public function addServer($host, $port, $weight);
 
     /**
-     * Test if the default session name is returned correctly.
+     * Returns the list with servers this storage is bound to.
      *
-     * @return void
+     * @return array The server list
      */
-    public function testGetAndSet()
-    {
-        $this->storage->set('key', $value = 'A value');
-        $this->assertSame($value, $this->storage->get('key'));
-    }
+    public function getServers();
 }

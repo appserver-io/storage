@@ -48,19 +48,11 @@ abstract class AbstractStorage implements StorageInterface
 
     /**
      * Passes the configuration and initializes the storage.
-     *
-     * The identifier will be set after the init() function has been invoked, so it'll overwrite the one
-     * specified in the configuration if set.
-     *
-     * @param string $identifier Unique identifier for the cache storage
      */
-    public function __construct($identifier = null)
+    public function __construct()
     {
         $this->init();
         $this->flush();
-        if ($identifier != null) {
-            $this->identifier = $identifier;
-        }
     }
 
     /**
@@ -103,7 +95,7 @@ abstract class AbstractStorage implements StorageInterface
      */
     public function getByTag($tag)
     {
-        return $this->get($this->getIdentifier() . $tag);
+        return $this->get($tag);
     }
 
     /**
@@ -116,7 +108,7 @@ abstract class AbstractStorage implements StorageInterface
      */
     public function has($entryIdentifier)
     {
-        if ($this->get($this->getIdentifier() . $entryIdentifier) !== false) {
+        if ($this->get($entryIdentifier) !== false) {
             return true;
         }
         return false;

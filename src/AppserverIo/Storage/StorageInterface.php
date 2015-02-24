@@ -33,13 +33,6 @@ interface StorageInterface
 {
 
     /**
-     * Returns this cache's identifier
-     *
-     * @return string The identifier for this cache
-     */
-    public function getIdentifier();
-
-    /**
      * Saves data in the cache.
      *
      * @param string  $entryIdentifier Something which identifies the data - depends on concrete cache
@@ -143,23 +136,4 @@ interface StorageInterface
      * @return object The storage object itself
      */
     public function getStorage();
-
-    /**
-     * Adds an server to the internal list with servers this storage
-     * is bound to, used by MemcachedStorage for example.
-     *
-     * @param string  $host   The server host
-     * @param integer $port   The server port
-     * @param integer $weight The weight the server has
-     *
-     * @return void
-     */
-    public function addServer($host, $port, $weight);
-
-    /**
-     * Returns the list with servers this storage is bound to.
-     *
-     * @return array The server list
-     */
-    public function getServers();
 }

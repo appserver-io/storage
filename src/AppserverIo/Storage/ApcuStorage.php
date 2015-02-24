@@ -58,21 +58,18 @@ class ApcuStorage extends AbstractStorage
      */
     public function set($entryIdentifier, $data, array $tags = array(), $lifetime = null)
     {
-        // create a unique cache key and add the passed value to the storage
-        $cacheKey = $this->getIdentifier() . $entryIdentifier;
-        apc_store($cacheKey, $data, $lifetime);
+        // add the passed value to the storage
+        apc_store($entryIdentifier, $data, $lifetime);
 
         // if tags has been set, tag the data additionally
         foreach ($tags as $tag) {
-            $tagData = $this->get($this->getIdentifier() . $tag);
-            if (is_array($tagData) && in_array($cacheKey, $tagData, true) === true) {
+            $tagData = $this->get($tag);
+            if (is_array($tagData) && in_array($entryIdentifier, $tagData, true) === true) {
                 // do nothing here
-            } elseif (is_array($tagData) && in_array($cacheKey, $tagData, true) === false) {
-                $tagData[] = $cacheKey;
+            } elseif (is_array($tagData) && in_array($entryIdentifier, $tagData, true) === false) {
+                $tagData[] = $entryIdentifier;
             } else {
-                $tagData = array(
-                    $cacheKey
-                );
+                $tagData = array($entryIdentifier);
             }
             apc_store($tag, $tagData);
         }
@@ -101,7 +98,7 @@ class ApcuStorage extends AbstractStorage
      */
     public function has($entryIdentifier)
     {
-        return apc_exists($this->getIdentifier() . $entryIdentifier);
+        return apc_exists($entryIdentifier);
     }
 
     /**
@@ -114,7 +111,7 @@ class ApcuStorage extends AbstractStorage
      */
     public function remove($entryIdentifier)
     {
-        return apc_delete($this->getIdentifier() . $entryIdentifier);
+        return apc_delete($entryIdentifier);
     }
 
     /**
