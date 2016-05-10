@@ -1,3 +1,15 @@
+# Version 2.1.0
+
+## Bugfixes
+
+* None
+
+## Features
+
+* Add new GenericThreaded class as replacement for GenericStackable class
+* Add new ThreadedStorage class as replacement for StackableStorage class
+* GenericStackable class now extends \Threaded instead of deprecated \Stackable
+
 # Version 2.0.0
 
 ## Bugfixes

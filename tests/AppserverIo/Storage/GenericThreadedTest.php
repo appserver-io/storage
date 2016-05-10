@@ -1,7 +1,7 @@
 <?php
 
 /**
- * AppserverIo\Storage\StackableStorageTest
+ * AppserverIo\Storage\GenericThreadedTest
  *
  * NOTICE OF LICENSE
  *
@@ -20,8 +20,10 @@
 
 namespace AppserverIo\Storage;
 
+use AppserverIo\Storage\Mock\MockThreadedContext;
+
 /**
- * Test for the stackable storage implementation.
+ * Test for generic threaded implementation.
  *
  * @author    Tim Wagner <tw@techdivision.com>
  * @copyright 2015 TechDivision GmbH <info@techdivision.com>
@@ -29,24 +31,38 @@ namespace AppserverIo\Storage;
  * @link      http://github.com/appserver-io/storage
  * @link      http://www.appserver.io
  */
-class StackableStorageTest extends \PHPUnit_Framework_TestCase
+class GenericThreadedTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * The storage instance to test.
+     * A key to bind a value to the threaded.
      *
-     * @var \AppserverIo\Storage\StackableStorage
+     * @var string
+     */
+    const KEY = 'key';
+
+    /**
+     * A value bound to the stackable for testing purposes.
+     *
+     * @var string
+     */
+    const VALUE = 'value';
+
+    /**
+     * The instance we want to test.
+     *
+     * @var \AppserverIo\Storage\GenericThreaded
      */
     protected $storage;
 
     /**
-     * Initializes the storage instance to test.
+     * Initializes the instance we want to test.
      *
      * @return void
      */
     public function setUp()
     {
-        $this->storage = new StackableStorage();
+        $this->storage = new GenericThreaded();
     }
 
     /**
@@ -54,9 +70,15 @@ class StackableStorageTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function testGetAndSet()
+    public function testSetAndGetValue()
     {
-        $this->storage->set('key', $value = 'A value');
-        $this->assertSame($value, $this->storage->get('key'));
+
+        // create a mock context
+        $context = new MockThreadedContext();
+        $context->injectStorage($this->storage);
+
+        // set/get the a value
+        $context->setValue(GenericThreadedTest::KEY, GenericThreadedTest::VALUE);
+        $this->assertSame(GenericThreadedTest::VALUE, $context->getValue(GenericThreadedTest::KEY));
     }
 }

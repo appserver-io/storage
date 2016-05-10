@@ -1,7 +1,7 @@
 <?php
 
 /**
- * AppserverIo\Storage\StackableStorageTest
+ * AppserverIo\Storage\GenericThreaded
  *
  * NOTICE OF LICENSE
  *
@@ -21,7 +21,8 @@
 namespace AppserverIo\Storage;
 
 /**
- * Test for the stackable storage implementation.
+ * A generic threaded implementation that can be used as data container
+ * in a thread context.
  *
  * @author    Tim Wagner <tw@techdivision.com>
  * @copyright 2015 TechDivision GmbH <info@techdivision.com>
@@ -29,34 +30,6 @@ namespace AppserverIo\Storage;
  * @link      http://github.com/appserver-io/storage
  * @link      http://www.appserver.io
  */
-class StackableStorageTest extends \PHPUnit_Framework_TestCase
+class GenericThreaded extends \Threaded
 {
-
-    /**
-     * The storage instance to test.
-     *
-     * @var \AppserverIo\Storage\StackableStorage
-     */
-    protected $storage;
-
-    /**
-     * Initializes the storage instance to test.
-     *
-     * @return void
-     */
-    public function setUp()
-    {
-        $this->storage = new StackableStorage();
-    }
-
-    /**
-     * Test if the default session name is returned correctly.
-     *
-     * @return void
-     */
-    public function testGetAndSet()
-    {
-        $this->storage->set('key', $value = 'A value');
-        $this->assertSame($value, $this->storage->get('key'));
-    }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * AppserverIo\Storage\StackableStorage
+ * AppserverIo\Storage\ThreadedStorage
  *
  * NOTICE OF LICENSE
  *
@@ -11,30 +11,29 @@
  *
  * PHP version 5
  *
- * @author     Tim Wagner <tw@techdivision.com>
- * @copyright  2015 TechDivision GmbH <info@techdivision.com>
- * @license    http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- * @link       http://github.com/appserver-io/storage
- * @link       http://www.appserver.io
+ * @author    Tim Wagner <tw@techdivision.com>
+ * @copyright 2016 TechDivision GmbH <info@techdivision.com>
+ * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @link      http://github.com/appserver-io/storage
+ * @link      http://www.appserver.io
  */
 
 namespace AppserverIo\Storage;
 
 /**
- * A storage implementation that uses a \Stackable to hold the data persistent
+ * A storage implementation that uses a \Threaded to hold the data persistent
  * in memory.
  *
  * This storage will completely be flushed when the the object is destroyed,
  * there is no automatic persistence functionality available.
  *
- * @author     Tim Wagner <tw@techdivision.com>
- * @copyright  2015 TechDivision GmbH <info@techdivision.com>
- * @license    http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
- * @link       http://github.com/appserver-io/storage
- * @link       http://www.appserver.io
- * @deprecated Use \AppserverIo\Storage\ThreadedStorage instead
+ * @author    Tim Wagner <tw@techdivision.com>
+ * @copyright 2016 TechDivision GmbH <info@techdivision.com>
+ * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
+ * @link      http://github.com/appserver-io/storage
+ * @link      http://www.appserver.io
  */
-class StackableStorage extends GenericStackable implements StorageInterface
+class ThreadedStorage extends GenericThreaded implements StorageInterface
 {
 
     /**

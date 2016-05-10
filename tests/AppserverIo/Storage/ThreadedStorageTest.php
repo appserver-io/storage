@@ -1,7 +1,7 @@
 <?php
 
 /**
- * AppserverIo\Storage\StackableStorageTest
+ * AppserverIo\Storage\ThreadedStorageTest
  *
  * NOTICE OF LICENSE
  *
@@ -21,7 +21,7 @@
 namespace AppserverIo\Storage;
 
 /**
- * Test for the stackable storage implementation.
+ * Test for a threaded storage implementation.
  *
  * @author    Tim Wagner <tw@techdivision.com>
  * @copyright 2015 TechDivision GmbH <info@techdivision.com>
@@ -29,13 +29,13 @@ namespace AppserverIo\Storage;
  * @link      http://github.com/appserver-io/storage
  * @link      http://www.appserver.io
  */
-class StackableStorageTest extends \PHPUnit_Framework_TestCase
+class ThreadedStorageTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
      * The storage instance to test.
      *
-     * @var \AppserverIo\Storage\StackableStorage
+     * @var \AppserverIo\Storage\ThreadedStorage
      */
     protected $storage;
 
@@ -46,7 +46,7 @@ class StackableStorageTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->storage = new StackableStorage();
+        $this->storage = new ThreadedStorage();
     }
 
     /**
