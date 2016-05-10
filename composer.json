@@ -20,7 +20,7 @@
 	},
 	"require-dev" : {
 		"appserver-io/build" : "~1.0",
-		"krakjoe/pthreads-polyfill" : "1.1.0"
+		"krakjoe/pthreads-polyfill" : "dev-master"
 	},
 	"suggest" : {
 		"ext-pthreads" : ">=2.0.10"
