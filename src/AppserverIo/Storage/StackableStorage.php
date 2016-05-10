@@ -180,7 +180,7 @@ class StackableStorage extends GenericStackable implements StorageInterface
     public function getAllKeys()
     {
         $keys = array();
-        foreach ($this as $key => $value) {
+        foreach ((array) $this as $key => $value) {
             $keys[] = $key;
         }
         return $keys;
