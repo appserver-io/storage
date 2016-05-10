@@ -7,7 +7,6 @@ php:
   - 5.4
 
 before_install:
-  - pecl install pthreads-stable
   - pecl install xdebug
   - phpenv rehash
   - wget https://scrutinizer-ci.com/ocular.phar
