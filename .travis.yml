@@ -6,17 +6,11 @@ php:
   - 5.5
   - 5.4
 
-matrix:
-  - php: 5.4
-  - php: 5.5
-  - php: 5.6
-    before_install:
-        - pecl install pthreads-2.0.10
-        - pecl install xdebug
-        - phpenv rehash
-  - php: 7.0
-    before_install: 
-      - pecl install pthreads
+before_install:
+  - pecl install pthreads-stable
+  - pecl install xdebug
+  - phpenv rehash
+  - wget https://scrutinizer-ci.com/ocular.phar
 
 before_script:
   - composer selfupdate
@@ -24,6 +18,7 @@ before_script:
 script:
   - ant composer-init
   - ant build
+  - php ocular.phar code-coverage:upload --format=php-clover $TRAVIS_BUILD_DIR/target/reports/unit/coverage/clover.xml
 
 notifications:
   email: info@appserver.io
