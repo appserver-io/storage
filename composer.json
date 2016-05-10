@@ -21,6 +21,9 @@
 	"require-dev" : {
 		"appserver-io/build" : "~1.0"
 	},
+	"suggest": {
+        "ext-pthreads": ">=2.0.10"
+    }
 	"autoload" : {
 		"psr-0" : {
 			"AppserverIo\\Storage" : [
