@@ -9,6 +9,7 @@
 * Add new GenericThreaded class as replacement for GenericStackable class
 * Add new ThreadedStorage class as replacement for StackableStorage class
 * GenericStackable class now extends \Threaded instead of deprecated \Stackable
+* Remove PHP 5.5 + 5.4 compatiblity
 
 # Version 2.0.0
 
