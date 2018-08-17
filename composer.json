@@ -1,41 +1,41 @@
 {
-	"name" : "appserver-io/storage",
-	"description" : "Generic storage package implementation.",
-	"homepage" : "https://github.com/appserver-io/storage",
-	"license" : "OSL-3.0",
-	"keywords" : [
-		"php",
-		"interface",
-		"storage"
-	],
-	"authors" : [{
-			"name" : "Tim Wagner",
-			"email" : "tw@appserver.io",
-			"homepage" : "http://www.appserver.io",
-			"role" : "Developer"
-		}
-	],
-	"require" : {
-		"php" : ">=5.6.0 < 8.0"
-	},
-	"require-dev" : {
-		"appserver-io/build" : "~1.0",
-		"krakjoe/pthreads-polyfill" : "dev-master"
-	},
-	"suggest" : {
-		"ext-pthreads" : ">=2.0.10"
-	},
-	"autoload" : {
-		"psr-0" : {
-			"AppserverIo\\Storage" : [
-				"src/",
-				"tests/"
-			]
-		}
-	},
-	"support" : {
-		"email" : "tw@appserver.io",
-		"issues" : "https://github.com/appserver-io/storage/issues",
-		"source" : "https://github.com/appserver-io/storage"
-	}
+  "name": "appserver-io/storage",
+  "description": "Generic storage package implementation.",
+  "homepage": "https://github.com/appserver-io/storage",
+  "license": "OSL-3.0",
+  "keywords": [
+    "php",
+    "interface",
+    "storage"
+  ],
+  "authors": [
+    {
+      "name": "Tim Wagner",
+      "email": "tw@appserver.io",
+      "homepage": "http://www.appserver.io",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.6.0 < 8.0"
+  },
+  "require-dev": {
+    "appserver-io/build": "^2.0"
+  },
+  "suggest": {
+    "ext-pthreads": ">=2.0.10"
+  },
+  "autoload": {
+    "psr-0": {
+      "AppserverIo\\Storage": [
+        "src/",
+        "tests/"
+      ]
+    }
+  },
+  "support": {
+    "email": "tw@appserver.io",
+    "issues": "https://github.com/appserver-io/storage/issues",
+    "source": "https://github.com/appserver-io/storage"
+  }
 }
